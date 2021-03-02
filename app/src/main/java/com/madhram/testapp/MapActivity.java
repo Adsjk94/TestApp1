@@ -19,9 +19,12 @@ import java.util.Objects;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
-    private double latitude = 0, longitude = 0;
-    private String id, name, country;
-    SupportMapFragment mapFragment;
+    private double latitude = 0,
+            longitude = 0;
+    private String id,
+            name,
+            country;
+    private SupportMapFragment mapFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +34,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_map);
 
         Bundle bundle = getIntent().getExtras();
-        assert bundle != null;
+        Objects.requireNonNull(bundle);
         id = bundle.getString(Adapter.EXTRA_ID);
         name = bundle.getString(Adapter.EXTRA_NAME);
         country = bundle.getString(Adapter.EXTRA_COUNTRY);
@@ -39,13 +42,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         longitude = bundle.getDouble(Adapter.EXTRA_LON);
 
         TextView idText = findViewById(R.id.id);
-        idText.setText("ID : " + id);
+        idText.setText(getString(R.string.idText) + id);
 
         TextView nameText = findViewById(R.id.name);
-        nameText.setText("Name : " + name);
+        nameText.setText(getString(R.string.nameText) + name);
 
         TextView countryText = findViewById(R.id.country);
-        countryText.setText("Country : " + country);
+        countryText.setText(getString(R.string.countryText) + country);
 
         ImageButton backButton = findViewById(R.id.backButton);
         backButton.setOnClickListener(v -> onBackPressed());

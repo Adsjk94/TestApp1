@@ -44,7 +44,7 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final int VIEW_TYPE_ITEM = 0, VIEW_TYPE_LOADING = 1;
 
-    private List<MapPointsClass> data;
+    private List<MapPoints> data;
     private ILoadMore loadMore;
     private boolean isLoading;
     private Activity activity;
@@ -59,7 +59,7 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public static final String EXTRA_LON = "com.madhram.testapp.lon";
     private final String IMAGE_URL = "https://picsum.photos/100/100/?random";
 
-    Adapter(Activity activity, RecyclerView recyclerView, List<MapPointsClass> data) {
+    Adapter(Activity activity, RecyclerView recyclerView, List<MapPoints> data) {
         this.activity = activity;
         this.data = data;
         this.recyclerView = recyclerView;
@@ -97,7 +97,7 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (viewType == VIEW_TYPE_ITEM){
             View view = LayoutInflater.from(activity).inflate(R.layout.element_view, viewGroup, false);
             view.setOnClickListener(v -> {
-                MapPointsClass mapPointsClass = data.get(recyclerView.getChildLayoutPosition(v));
+                MapPoints mapPointsClass = data.get(recyclerView.getChildLayoutPosition(v));
                 Intent intent = new Intent(activity, MapActivity.class);
                 intent.putExtra(EXTRA_ID, mapPointsClass.getId());
                 intent.putExtra(EXTRA_NAME, mapPointsClass.getName());

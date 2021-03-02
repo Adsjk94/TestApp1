@@ -3,6 +3,7 @@ package com.madhram.testapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -23,13 +24,13 @@ import javax.net.ssl.SSLSocketFactory;
 
 public class LoginActivity extends AppCompatActivity {
 
-    EditText loginEditText;
-    EditText passwordEditText;
-    Button loginButton;
+    private EditText loginEditText;
+    private EditText passwordEditText;
+    private Button loginButton;
     private String login = "";
     private String password = "";
 
-    private static String GET_URL = "https://www.alarstudios.com/test/auth.cgi?username=%s&password=%s";
+    private static final String GET_URL = "https://www.alarstudios.com/test/auth.cgi?username=%s&password=%s";
     public static final String EXTRA_CODE = "com.madhram.testapp.code";
     private final static Integer PORT = 443;
 
@@ -77,9 +78,9 @@ public class LoginActivity extends AppCompatActivity {
             if (!login.isEmpty() && !password.isEmpty()){
                 sendGETRequest(login, password);
             } else if (login.isEmpty()){
-                loginEditText.setError("Login field is empty");
+                loginEditText.setError(getString(R.string.emptylogin));
             } else {
-                passwordEditText.setError("Password field is empty");
+                passwordEditText.setError(getString(R.string.emptypassword));
             }
         });
     }
@@ -118,11 +119,15 @@ public class LoginActivity extends AppCompatActivity {
                     intent.putExtra(EXTRA_CODE, code);
                     startActivity(intent);
                 } else {
-                    runOnUiThread(() -> Toast.makeText(this, "You entered wrong login or password", Toast.LENGTH_LONG).show());
+                    runOnUiThread(() -> {
+                        Toast.makeText(this, R.string.wronglogpass, Toast.LENGTH_LONG).show();
+                    });
                 }
 
             } catch (Exception e) {
-                runOnUiThread(() -> Toast.makeText(this, "Check your internet connection", Toast.LENGTH_LONG).show());
+                runOnUiThread(() -> {
+                    Toast.makeText(this, R.string.errorinternet, Toast.LENGTH_LONG).show();
+                });
             }
         }).start();
     }

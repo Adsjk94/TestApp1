@@ -25,15 +25,15 @@ import javax.net.ssl.SSLSocketFactory;
 
 public class MainActivity extends AppCompatActivity {
 
-    // for GET request
+
     private String code;
     private int pageNumber = 1;
-    private static String GET_URL = "https://www.alarstudios.com/test/data.cgi?code=%s&p=%s";
+    private static final String GET_URL = "https://www.alarstudios.com/test/data.cgi?code=%s&p=%s";
     private final static Integer PORT = 443;
 
-    RecyclerView recyclerView;
-    Adapter adapter;
-    List<MapPointsClass> mapPointsClass = new ArrayList<>();
+    private RecyclerView recyclerView;
+    private Adapter adapter;
+    private List<MapPoints> mapPoints = new ArrayList<>();
     private Handler handler = new Handler();
 
     @Override
@@ -46,13 +46,13 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new Adapter(this, recyclerView, mapPointsClass);
+        adapter = new Adapter(this, recyclerView, mapPoints);
         recyclerView.setAdapter(adapter);
         sendGETRequest();
 
         adapter.setLoadMore(() -> {
-            mapPointsClass.add(null);
-            recyclerView.post(() -> adapter.notifyItemInserted(mapPointsClass.size() - 1));
+            mapPoints.add(null);
+            recyclerView.post(() -> adapter.notifyItemInserted(mapPoints.size() - 1));
             sendGETRequest();
         });
     }
@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
 
                             for (int i=0; i < obj.getJSONArray("data").length(); i++) {
                                 JSONObject mapItem = obj.getJSONArray("data").getJSONObject(i);
-                                mapPointsClass.add(new MapPointsClass(
+                                mapPoints.add(new MapPoints(
                                         mapItem.getString("id"),
                                         mapItem.getString("name"),
                                         mapItem.getString("country"),
@@ -85,9 +85,9 @@ public class MainActivity extends AppCompatActivity {
                             }
 
                             handler.post(() -> {
-                                if (mapPointsClass.size() > 10) {
-                                    mapPointsClass.remove(mapPointsClass.size() - 11);
-                                    adapter.notifyItemRemoved(mapPointsClass.size());
+                                if (mapPoints.size() > 10) {
+                                    mapPoints.remove(mapPoints.size() - 11);
+                                    adapter.notifyItemRemoved(mapPoints.size());
                                 }
                                 adapter.notifyDataSetChanged();
                                 adapter.setLoaded();

@@ -1,6 +1,6 @@
 package com.madhram.testapp;
 
-class MapPointsClass {
+class MapPoints {
 
     private String id;
     private String name;
@@ -8,7 +8,7 @@ class MapPointsClass {
     private Double lat;
     private Double lon;
 
-    MapPointsClass(String id, String name, String country, Double lat, Double lon){
+    MapPoints(String id, String name, String country, Double lat, Double lon){
         this.id = id;
         this.name = name;
         this.country = country;
